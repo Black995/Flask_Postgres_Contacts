@@ -1,0 +1,68 @@
+{% extends "Base.html" %} {% block title %} Tu agendario {% endblock %} {% block
+body %}
+
+<div class="row">
+  <div class="col m5 l5">
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for msg in
+    messages %}
+    <div class="container materialert success">
+      <div class="material-icons">check</div>
+      {{ msg }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+    <form action="/add_contact" method="POST">
+      <div class="row card-panel">
+        <div class="input-field col s6">
+          <input type="text" name="nombre" class="validate" required />
+          <label for="nombre">Nombre:</label>
+        </div>
+        <div class="input-field col s6">
+          <input type="number" name="telefono" class="validate" required />
+          <label for="telefono">Teléfono:</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="email" name="email" />
+          <label for="email">Email:</label>
+        </div>
+        <button class="btn light-blue" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="col m7 l7">
+    <table class="centered resposive-table highlight">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Operaciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for contact in contactos %}
+        <tr>
+          <td>{{ contact.1 }}</td>
+          <td>{{ contact.2 }}</td>
+          <td>{{ contact.3 }}</td>
+          <td>
+            <a
+              href="/edit/{{contact.0}}"
+              class="waves-effect waves-light btn yellow"
+              >Editar</a
+            >
+            <a
+              href="/delete/{{contact.0}}"
+              class="waves-effect waves-light btn red"
+              >Eliminar</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
